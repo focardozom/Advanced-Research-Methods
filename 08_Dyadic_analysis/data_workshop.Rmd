@@ -1,0 +1,306 @@
+---
+title: "Dyadic analysis"
+output: html_document
+date: '2022-04-22'
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Libraries
+
+```{r}
+library(tidyverse) # data cleaning
+library(reactable) # pretty tables
+library(broom) # extract coefficients 
+library(broom.mixed)  # extract coefficients 
+library(MplusAutomation)  # mplus preparation  
+library(lme4) # for mixed models
+```
+
+Data set
+
+```{r}
+
+data_example <- 
+  tibble(
+    Dyad=c(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10),
+    Person=c(1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2),
+    Future=c(75,90,55,75,45,33,70,75,50,40,85,90,75,80,90,68,65,78,88,95),
+    Gender=c(-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1),
+    Contribution=c(-10,-5,0,10,-10,-15,5,15,0,-5,-10,20,-5,0,5,0,0,15,-15,5),
+    Culture=c(1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
+)
+
+reactable(data_example)
+
+
+```
+
+---
+
+### Estimate a model using lm. 
+
+```{r}
+
+lmm_wrong <- lm(Future ~ Contribution + Culture + Contribution*Culture,
+                data=data_example)
+summary(lmm_wrong)
+
+```
+
+### Estimate a model using lmer (random effect). 
+
+```{r}
+lmm <- 
+  lmer(Future ~ Contribution + Culture + Contribution*Culture + (1|Dyad), data=data_example)
+summary(lmm)
+```
+
+### Is the random effect significant?
+
+```{r}
+anova(lmm,lmm_wrong)
+```
+
+
+### Interclass correlation
+
+How many random effects are in this model?
+
+```{r}
+exp_rsq <- lmer(Future ~ (1|Dyad),data=data_example)
+summary(ex)
+
+255.5 / (255.5 + 82.3)
+
+library(MuMIn)
+r.squaredGLMM(exp_rsq) 
+
+```
+
+ICC of the model?
+
+```{r}
+
+summary(lmm)
+
+176.42 / (176.42 + 43.76)
+
+```
+
+
+How much variance is explained by the two predictors and the interaction?
+
+```{r}
+1 - ((176.42 + 43.76) / (255.5 + 82.3))
+```
+
+
+---
+Filter data
+
+```{r}
+risk_data <- the_data %>% 
+  group_by(ID, MEMBER) %>% 
+  summarise(risk_factor=mean(answer, na.rm=T))
+```
+
+```{r}
+reactable(risk_data, defaultPageSize = 4,pagination = FALSE,
+          highlight = TRUE, height = 450)
+```
+
+---
+
+# Pivot data
+
+```{r}
+risk_data_wide <- risk_data %>% 
+  pivot_wider(names_from = MEMBER, 
+  values_from=risk_factor, 
+  id_cols = ID)
+
+```
+
+---
+
+```{r}
+ggplot(risk_data_wide, aes(Parent, Student)) + geom_point()
+```
+
+
+```{r}
+
+mean_risk_factor <- 
+  risk_data %>% ungroup() %>%  
+  summarise(mean=mean(risk_factor, na.rm=T))
+
+risk_data_wide %>% 
+  ungroup() %>% 
+  mutate(id=row_number()) %>% 
+  pivot_longer(-c(id,ID)) %>% 
+ggplot(.,
+       aes(id, value, group=ID)) + 
+  geom_point()+
+  geom_line() + 
+  geom_hline(yintercept =  1.53)
+
+
+```
+
+---
+
+```{r}
+risk_data_wide %>% 
+  ungroup() %>% 
+  mutate(id=row_number()) %>% 
+  pivot_longer(-c(id,ID)) %>% 
+ggplot(.,
+       aes(id, value, color=name)) + 
+  geom_point()+
+  geom_hline(yintercept =  1.53)
+```
+
+---
+
+```{r}
+
+mod <- lm(risk_factor ~ 1, data = risk_data)
+df <- augment(mod) %>% mutate(id=row_number())
+ggplot(df, aes(x = id, y = .resid)) + geom_point()
+
+mean_model <-   df %>%
+  ggplot(aes(id, risk_factor)) + 
+  geom_segment(aes(x = id, y = risk_factor,
+                   xend = id, yend = .fitted), 
+               alpha = 1, color = "gray") +
+  geom_point(size = 2, color = "black") +
+  geom_segment(aes(x = first, y = .fitted, xend = last, yend =.fitted), 
+               data = function(x) {
+                 x %>% 
+                   summarize(first=first(id), last=last(id), 
+                             .fitted=mean(.fitted), .groups="drop_last")
+               }, color = "black", linetype = "dashed") +
+  ggtitle("Fitted overall mean (with residuals)")
+
+```
+
+---
+
+```{r}
+library(broom)
+library(broom.mixed)
+mod <- lm(risk_factor ~ MEMBER, data = risk_data)
+df <- augment(mod)  %>% mutate(id=row_number())
+ 
+dyadic_model <-  df %>%
+  ggplot(aes(id, risk_factor)) + 
+  geom_segment(aes(x = id, y = risk_factor,
+                   xend = id, yend = .fitted), 
+               alpha = 1, color = "gray") +
+  geom_point(size = 2, color = "black") +
+  geom_segment(aes(x = first, y = .fitted, xend = last, yend =.fitted), 
+               data = function(x) {
+                 x %>% 
+                   summarize(first=first(id), last=last(id), 
+                             .fitted=mean(.fitted), .groups="drop_last")
+               }, color = "black", linetype = "dashed") +
+  ggtitle("Fitted overall mean (with residuals)")
+```
+
+---
+
+```{r}
+library(patchwork)
+
+mean_model + dyadic_model
+```
+
+---
+
+```{r}
+
+library(lme4)
+library(broom.mixed)
+
+mod_r <- risk_data %>% 
+  lmer(risk_factor ~ MEMBER + (1 | ID), data=.)
+
+df_rmodel <- augment(mod_r)  %>% mutate(id=row_number())
+
+df_rmodel %>%
+  arrange(MEMBER) %>% 
+  mutate(Subject = row_number()) %>% 
+  ggplot(aes(Subject, risk_factor, color = MEMBER)) + 
+  geom_point(size = 2) +
+  geom_segment(aes(x = first, y = .fitted, xend = last, yend =.fitted), 
+               data = function(x) {
+                 x %>%
+                   group_by(MEMBER) %>% 
+                   summarize(first=first(Subject), last=last(Subject), 
+                             .fitted=mean(.fitted), .groups="drop_last")
+                 })  +
+  
+    geom_segment(aes(x = first, y = .fitted, xend = last, yend =.fitted), 
+               data = function(x) {
+                 x %>% 
+                   summarize(first=first(Subject), last=last(Subject), 
+                             .fitted=mean(.fitted), .groups="drop_last")
+               }, color = "black", linetype = "dashed") +
+  ggtitle("Fitted model means") + 
+  scale_color_manual(values = c("#D81B60", "#1E88E5")) +
+  theme_minimal()
+```
+
+---
+
+```{r}
+library(lme4)
+
+risk_data %>% 
+  lmer(risk_factor ~ MEMBER + (1 | ID), data=.) %>% 
+  summary
+
+library(MplusAutomation)
+
+risk_data_mplus <- risk_data
+risk_data_mplus[is.na(risk_data_mplus)] <- -999 
+prepareMplusData(risk_data, "data.dat")
+
+```
+
+
+```{r}
+
+
+sem_data <- the_data %>% 
+  select(ID, MEMBER, VARNAME, answer) %>% 
+  mutate(id=as.numeric(factor(ID))) %>% 
+  mutate(Parent=case_when(MEMBER=="Parent" ~ 1,
+                          MEMBER=="Student" ~ 0)) %>% 
+  select(-ID, -MEMBER) %>% 
+  pivot_wider(names_from = VARNAME, values_from = answer) %>% 
+  arrange(id) 
+
+sem_data[is.na(sem_data)] <- -999
+prepareMplusData(sem_data, "data_sem.dat")
+
+  
+
+```
+
+
+```{r}
+the_data <- readRDS("data_risk.Rds") 
+```
+
+```{r}
+reactable(the_data, defaultPageSize = 4,pagination = FALSE,
+          highlight = TRUE, height = 450)
+```
+
+

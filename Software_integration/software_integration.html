@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="software_integration_files/libs/clipboard/clipboard.min.js"></script>
+<script src="software_integration_files/libs/quarto-html/tabby.min.js"></script>
+<script src="software_integration_files/libs/quarto-html/popper.min.js"></script>
+<script src="software_integration_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="software_integration_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="software_integration_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="software_integration_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.0.36">
+
+  <meta name="author" content="Francisco Cardozo">
+  <meta name="author" content="Eric Brown">
+  <title>Software integration</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="software_integration_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="software_integration_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="software_integration_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link href="software_integration_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="software_integration_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="software_integration_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="software_integration_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="software_integration_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="software_integration_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-captioned.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-captioned) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-captioned.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-captioned .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-captioned .callout-caption  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-captioned.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-captioned.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-caption {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-caption {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-caption {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-captioned .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-captioned .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-captioned) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-caption {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-caption {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-caption {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-caption {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-caption {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  
+  <script src="software_integration_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="software_integration_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="center">
+  <h1 class="title">Software integration</h1>
+  <p class="author">Francisco Cardozo</p>
+  <p class="author">Eric Brown</p>
+</section>
+
+<section id="agenda" class="slide level2">
+<h2>Agenda</h2>
+<div class="cell">
+
+</div>
+<ul>
+<li>Multitrait-Multimethod Matrix</li>
+<li>Data set</li>
+<li>Analysis</li>
+<li>R and <em>M</em>plus</li>
+</ul>
+</section>
+<section id="prevention-of-alcohol-use" class="slide level2">
+<h2>Prevention of alcohol use</h2>
+<div class="r-fit-text">
+<p>We usually measure risk factors by asking students in the schools, but because of Covid, it was impossible.</p>
+<p>We wanted to ask while they were at homes, but it was extremely complicated because of biases and logistics.</p>
+<p>What happens if we ask parents?</p>
+<p>Is the parent evaluation of the student’s risk a good approximation of the student’s risk?</p>
+<p>What is the correlation between students’ and parents’ perceptions of risk?</p>
+</div>
+</section>
+<section id="multitrait-multimethod-matrix-in-r" class="slide level2">
+<h2>Multitrait-Multimethod Matrix in R</h2>
+<p>The data set contains:</p>
+<ul>
+<li>Risk and protective factors</li>
+<li>Parent’s and students’ perspective</li>
+</ul>
+</section>
+<section id="community-disorganization-crcdo" class="slide level2">
+<h2>Community Disorganization (CRCDO)</h2>
+<p>How much do each of the following statements describe your neighborhood?</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped" style="font-size: 22px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Var_name </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Child </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Parent </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 4 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 3 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 2 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 5em; "> NHDELIN </td>
+   <td style="text-align:left;"> Crime </td>
+   <td style="text-align:left;"> Crime </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> NHVENTA </td>
+   <td style="text-align:left;"> Drugs </td>
+   <td style="text-align:left;"> Drugs </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> NHFIGHT </td>
+   <td style="text-align:left;"> Fights </td>
+   <td style="text-align:left;"> Fights </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> NHEMPTY </td>
+   <td style="text-align:left;"> Lots of empty or abandoned buildings </td>
+   <td style="text-align:left;"> Lots of empty or abandoned buildings </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> NHGRAF </td>
+   <td style="text-align:left;"> Lots of graffiti </td>
+   <td style="text-align:left;"> Lots of graffiti </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="perceived-risks-of-drug-use-prprd" class="slide level2">
+<h2>Perceived Risks of Drug Use (PRPRD)</h2>
+<p>How much do you think people risk harming themselves (physically or in other ways) if they…</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped" style="font-size: 22px; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Var_name </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Child </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Parent </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 4 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 3 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 2 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 5em; "> HMCIG </td>
+   <td style="text-align:left;"> …smoke one or more packs of cigarettes per day? </td>
+   <td style="text-align:left;"> …smoke one or more packs of cigarettes per day? </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> Small </td>
+   <td style="text-align:left;"> Moderate </td>
+   <td style="text-align:left;"> Big </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> HMMARO </td>
+   <td style="text-align:left;"> …try marijuana once or twice? </td>
+   <td style="text-align:left;"> …try marijuana once or twice? </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> Small </td>
+   <td style="text-align:left;"> Moderate </td>
+   <td style="text-align:left;"> Big </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> HMMARR </td>
+   <td style="text-align:left;"> …smoke marijuana regularly? </td>
+   <td style="text-align:left;"> …smoke marijuana regularly? </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> Small </td>
+   <td style="text-align:left;"> Moderate </td>
+   <td style="text-align:left;"> Big </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> HMALC </td>
+   <td style="text-align:left;"> …take one or two drinks of an alcoholic beverage (beer, wine, or liquor) nearly every day? </td>
+   <td style="text-align:left;"> …take one or two drinks of an alcoholic beverage (beer, wine, or liquor) nearly every day? </td>
+   <td style="text-align:left;"> None </td>
+   <td style="text-align:left;"> Small </td>
+   <td style="text-align:left;"> Moderate </td>
+   <td style="text-align:left;"> Big </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="poor-family-management-frpfm" class="slide level2">
+<h2>Poor Family Management (FRPFM)</h2>
+<p>In your family…</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped" style="font-size: 18px; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Var_name </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Child </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> Parent </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 1 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 2 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 3 </th>
+   <th style="text-align:left;font-weight: bold;font-size: 26px;"> 4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 5em; "> FAMRULE </td>
+   <td style="text-align:left;"> The rules in my family are clear. </td>
+   <td style="text-align:left;"> The rules in my family are clear. </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> HMWORK </td>
+   <td style="text-align:left;"> My parents ask if I've gotten my homework done. </td>
+   <td style="text-align:left;"> I frequently ask my children if they have finished their homework. </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> PARKNOW </td>
+   <td style="text-align:left;"> When I am not at home, one of my parents knows where I am and who I am with. </td>
+   <td style="text-align:left;"> When my children are not at home, one of the adults knows where they are and who they are with. </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> CMHOME </td>
+   <td style="text-align:left;"> Would your parents know if you did not come home on time? </td>
+   <td style="text-align:left;"> I would realize if my children do not arrive on time at home. </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> CLRRULE </td>
+   <td style="text-align:left;"> My family has clear rules about alcohol and drug use. </td>
+   <td style="text-align:left;"> I would realize if my children do not arrive on time at home. </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> CATCHAL </td>
+   <td style="text-align:left;"> If you drank some beer or wine or hard liquor (for example, vodka, whiskey or gin) without your parent's permission, would you be caught by your parents? </td>
+   <td style="text-align:left;"> If my son/daughter drinks beer, brandy, rum, wine, cocktails, or any other liquor without permission, I would realize it </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5em; "> CATCHSK </td>
+   <td style="text-align:left;"> If you skipped school, would you be caught by your parents? </td>
+   <td style="text-align:left;"> If my children skip school, I would realize it. </td>
+   <td style="text-align:left;"> YES! </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> NO! </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>–</p>
+</section>
+<section id="multitrait-multimethod-matrix" class="title-slide slide level1 center">
+<h1>Multitrait-Multimethod Matrix</h1>
+<p><em>Multimethod</em>= Parent and Child</p>
+<p><em>Multitrait</em> = Community Disorganization, Poor Family Management, and Perceived Risks of Drug Use</p>
+<div class="cell">
+
+</div>
+</section>
+
+<section>
+<section id="plot-your-data" class="title-slide slide level1 center" data-background-color="#ffe700">
+<h1>Plot your data</h1>
+
+</section>
+<section id="descriptives" class="slide level2">
+<h2>Descriptives</h2>
+
+<img data-src="software_integration_files/figure-revealjs/descriptivies-1.svg" width="960" class="r-stretch"></section>
+<section id="cronbachs-alpha" class="slide level2">
+<h2>Cronbach’s Alpha</h2>
+<div class="cell">
+
+</div>
+<p>Community Disorganization = 0.75</p>
+<p>Perceived Risk of Drug Use = 0.662</p>
+<p>Poor Family Management = 0.818</p>
+</section>
+<section id="cronbachs-alpha-community-disorganization-crcdo" class="slide level2">
+<h2>Cronbach’s Alpha Community Disorganization (CRCDO)</h2>
+<p>Parent, student</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7383984</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7579803</code></pre>
+</div>
+</div>
+</section>
+<section id="cronbachs-alpha-perceived-risks-of-drug-use-prprd" class="slide level2">
+<h2>Cronbach’s Alpha Perceived Risks of Drug Use (PRPRD)</h2>
+<p>Parent, student</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6401554</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.618836</code></pre>
+</div>
+</div>
+</section>
+<section id="cronbachs-alpha-poor-family-management-frpfm" class="slide level2">
+<h2>Cronbach’s Alpha Poor Family Management (FRPFM)</h2>
+<p>Parent, student</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8343457</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8081604</code></pre>
+</div>
+</div>
+</section>
+<section id="multitrait-multimethod-matrix-1" class="slide level2">
+<h2>MultiTrait MultiMethod Matrix</h2>
+
+<img data-src="software_integration_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><strong>CRCDO</strong>= Community Disorganization, <strong>PRPRD</strong>= Perceived Risks of Drug Use, <strong>FRPFM</strong>= Poor Family Management</p></section>
+<section id="multitrait-multimethod-matrix-2" class="slide level2">
+<h2>MultiTrait MultiMethod Matrix</h2>
+
+<img data-src="software_integration_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><strong>CRCDO</strong>= Community Disorganization, <strong>PRPRD</strong>= Perceived Risks of Drug Use, <strong>FRPFM</strong>= Poor Family Management</p></section></section>
+<section>
+<section id="all-software-are-wrong-but-some-are-useful" class="title-slide slide level1 center" data-background-color="#ffe700">
+<h1>“All software are wrong, but some are useful”</h1>
+
+</section>
+<section id="r-and-mplus" class="slide level2">
+<h2>R and <em>M</em>plus</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>R</p>
+<ul>
+<li>Integrate your data and text</li>
+<li>Lot of tools for data manipulation</li>
+<li>Packages</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><em>M</em>plus</p>
+<ul>
+<li>Highly structured syntax</li>
+<li>Complete outputs</li>
+<li>Better for structural models?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="data-set-in-long-format" class="slide level2">
+<h2>Data set in long format</h2>
+<div style="font-size: 0.7em">
+<p>You have ID column, and the participants (unit of analysis) appear multiple times in different rows.</p>
+</div>
+<p><br></p>
+<div style="font-size: 0.5em; text-align: center">
+<table>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Member</th>
+<th>Risk Factor</th>
+<th>Item</th>
+<th style="text-align: center;">Answer</th>
+<th>Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Parent</td>
+<td>RF1</td>
+<td>Item1</td>
+<td style="text-align: center;">2</td>
+<td>no</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Parent</td>
+<td>RF1</td>
+<td>Item2</td>
+<td style="text-align: center;">3</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>Student</td>
+<td>RF1</td>
+<td>Item1</td>
+<td style="text-align: center;">2</td>
+<td>no</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Student</td>
+<td>RF1</td>
+<td>Item2</td>
+<td style="text-align: center;">1</td>
+<td>YES!</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>Parent</td>
+<td>RF2</td>
+<td>Item1</td>
+<td style="text-align: center;">4</td>
+<td>NO!</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Parent</td>
+<td>RF2</td>
+<td>Item2</td>
+<td style="text-align: center;">2</td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>Student</td>
+<td>RF2</td>
+<td>Item1</td>
+<td style="text-align: center;">3</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Student</td>
+<td>RF2</td>
+<td>Item2</td>
+<td style="text-align: center;">2</td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Parent</td>
+<td>RF1</td>
+<td>Item1</td>
+<td style="text-align: center;">4</td>
+<td>NO!</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Parent</td>
+<td>RF1</td>
+<td>Item2</td>
+<td style="text-align: center;">2</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Student</td>
+<td>RF1</td>
+<td>Item1</td>
+<td style="text-align: center;">3</td>
+<td>no</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Student</td>
+<td>RF1</td>
+<td>Item2</td>
+<td style="text-align: center;">1</td>
+<td>YES!</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="data-set-in-wide-format" class="slide level2">
+<h2>Data set in wide format</h2>
+<div style="font-size: 0.7em">
+<p>You still have the ID column, but the participants (unit of analysis) only appear once.</p>
+</div>
+<p><br></p>
+<div style="font-size: 0.5em; text-align: center">
+<table>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th style="text-align: center;">Parent_RF1_item1</th>
+<th style="text-align: center;">Parent_RF1_item2</th>
+<th style="text-align: center;">Student_RF1_Item1</th>
+<th style="text-align: center;">Student_RF1_Item2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="long-and-wide-format" class="slide level2">
+<h2>Long and wide format</h2>
+<iframe data-src="tidyr.pdf" width="1000" height="500">
+</iframe>
+</section>
+<section id="click" class="slide level2" data-background-color="#ffe700">
+<h2>Click</h2>
+<p>Click to go to the lab. <a href="https://francisco-cardozo.shinyapps.io/Pivot/#section-the-data-set">Practice</a></p>
+</section></section>
+<section>
+<section id="mplus" class="title-slide slide level1 center">
+<h1>Mplus</h1>
+
+</section>
+<section id="mplus-automation" class="slide level2">
+<h2><em>M</em>plus automation</h2>
+<p>A package:</p>
+<ul>
+<li>Run <em>M</em>plus scripts from R.</li>
+<li>Convert data into <em>M</em>plus format.</li>
+<li>Generate <em>M</em>plus scripts</li>
+<li>Read <em>M</em>plus outputs into R</li>
+<li>Plot model results</li>
+</ul>
+</section>
+<section id="mplusautomation" class="slide level2">
+<h2>MplusAutomation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># 1. Install to save the package in your computer. </span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co"># You only need to do this once</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">install.packages</span>(<span class="st">"MplusAutomation"</span>) </span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># 2. Call the package to activate the functions saved in the package.</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">library</span>(MplusAutomation) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<iframe data-src="MplusAutomation.pdf" width="1100" height="300">
+</iframe>
+</section>
+<section id="mplusautomation-1" class="slide level2">
+<h2>MplusAutomation</h2>
+<p>Before you start pivoting your data, begin by…</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(readxl) <span class="co"># To read excel files in R</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(tidyverse) <span class="co"># To activate the "pivot" functions</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">library</span>(MplusAutomation) <span class="co"># To activate the function "prepareMplusData"</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>dyads <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"./replace_this_with_the_name_of_your_data_file.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mplusautomation-2" class="slide level2">
+<h2>MplusAutomation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="2-8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Pivot wider your data</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>Mplus_dyads <span class="ot">&lt;-</span> </span>
+<span id="cb9-3"><a href="#cb9-3"></a>  dyads <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">group_by</span>(ID, MEMBER, FACTORNAME) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">summarise</span>(<span class="at">MEAN=</span> <span class="fu">mean</span>(ANSWER)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(MEMBER, FACTORNAME),</span>
+<span id="cb9-7"><a href="#cb9-7"></a>              <span class="at">values_from =</span> MEAN) </span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># Define missing data value</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>Mplus_dyads[<span class="fu">is.na</span>(Mplus_dyads)] <span class="ot">&lt;-</span> <span class="dv">999</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co"># Export your data to Mplus</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="fu">prepareMplusData</span>(Mplus_dyads, <span class="st">"Mplus_dyads.dat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mplusautomation-3" class="slide level2">
+<h2>MplusAutomation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="9-10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Pivot wider your data</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>Mplus_dyads <span class="ot">&lt;-</span> </span>
+<span id="cb10-3"><a href="#cb10-3"></a>  dyads <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">group_by</span>(ID, MEMBER, FACTORNAME) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>  <span class="fu">summarise</span>(<span class="at">MEAN=</span> <span class="fu">mean</span>(ANSWER)) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(MEMBER, FACTORNAME),</span>
+<span id="cb10-7"><a href="#cb10-7"></a>              <span class="at">values_from =</span> MEAN) </span>
+<span id="cb10-8"><a href="#cb10-8"></a></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="co"># Define missing data value</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>Mplus_dyads[<span class="fu">is.na</span>(Mplus_dyads)] <span class="ot">&lt;-</span> <span class="dv">999</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co"># Export your data to Mplus</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="fu">prepareMplusData</span>(Mplus_dyads, <span class="st">"Mplus_dyads.dat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mplusautomation-4" class="slide level2">
+<h2>MplusAutomation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="11-13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Pivot wider your data</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>Mplus_dyads <span class="ot">&lt;-</span> </span>
+<span id="cb11-3"><a href="#cb11-3"></a>  dyads <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">group_by</span>(ID, MEMBER, FACTORNAME) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">summarise</span>(<span class="at">MEAN=</span> <span class="fu">mean</span>(ANSWER)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="fu">c</span>(MEMBER, FACTORNAME),</span>
+<span id="cb11-7"><a href="#cb11-7"></a>              <span class="at">values_from =</span> MEAN) </span>
+<span id="cb11-8"><a href="#cb11-8"></a></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co"># Define missing data value</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>Mplus_dyads[<span class="fu">is.na</span>(Mplus_dyads)] <span class="ot">&lt;-</span> <span class="dv">999</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="co"># Export your data to Mplus</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="fu">prepareMplusData</span>(Mplus_dyads, <span class="st">"Mplus_dyads.dat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mplusautomation-5" class="slide level2">
+<h2>MplusAutomation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/console.png"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/datafile.png"></p>
+</div>
+</div>
+</section></section>
+<section id="cfa-in-lavaan" class="title-slide slide level1 center">
+<h1>CFA in Lavaan</h1>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+-----
+Factor: ID 
+Conversion:
+                level number
+ 01-1002-022-20102021      1
+ 01-1002-023-20102021      2
+ 01-1002-024-20102021      3
+ 01-1002-025-20102021      4
+ 01-1002-026-20102021      5
+ 01-1002-027-20102021      6
+ 01-1002-028-21102021      7
+ 01-1002-046-20102021      8
+ 01-1003-029-21102021      9
+ 01-1003-030-21102021     10
+ 01-1003-031-21102021     11
+ 01-1003-032-21102021     12
+ 01-1003-033-21102021     13
+ 01-1003-034-21102021     14
+ 01-1003-035-21102021     15
+ 01-1003-036-21102021     16
+ 01-1003-037-21102021     17
+ 01-1003-038-21102021     18
+ 01-1003-039-21102021     19
+ 01-1003-040-21102021     20
+ 01-1003-041-21102021     21
+ 01-1003-042-21102021     22
+ 01-1003-043-21102021     23
+ 01-1102-044-20102021     24
+ 01-1102-045-20102021     25
+  01-606-001-20102021     26
+  01-606-002-20102021     27
+  01-606-003-21102021     28
+  01-606-004-21102021     29
+  01-606-005-21102021     30
+  01-705-006-19102021     31
+  01-705-007-19102021     32
+  01-705-008-19102021     33
+  01-705-009-19102021     34
+  01-804-010-19102021     35
+  01-804-011-19102022     36
+  01-804-012-19102022     37
+  01-805-013-19102021     38
+  01-805-014-19102021     39
+  01-805-015-19102021     40
+  01-905-016-19102021     41
+  01-905-017-19102021     42
+  01-905-018-19102021     43
+  01-905-019-19102021     44
+  01-905-020-19102021     45
+  01-905-021-19102021     46
+  02-101-062-14092021     47
+  02-101-190-08112021     48
+  02-101-191-08112021     49
+  02-101-192-08112021     50
+  02-102-051-14092021     51
+  02-102-052-14092021     52
+  02-102-053-14092021     53
+  02-102-054-14092021     54
+  02-102-055-14092021     55
+  02-102-185-08112021     56
+  02-102-186-08112021     57
+  02-102-187-08112021     58
+  02-102-188-08112021     59
+  02-102-189-09112021     60
+  02-111-047-14092021     61
+  02-930-048-14092021     62
+  02-930-049-14092021     63
+  02-930-050-14092021     64
+  02-930-058-14092021     65
+  02-930-060-14092021     66
+  02-932-135-14092021     67
+  02-932-193-08112021     68
+  02-932-194-08112021     69
+  03-101-061-21092021     70
+  03-101-063-21092021     71
+  03-101-096-21092021     72
+  03-102-075-23092021     73
+  03-102-076-23092021     74
+  03-102-077-23092021     75
+  03-102-078-23092021     76
+  03-102-155-17112021     77
+  03-111-071-22092021     78
+  03-111-072-22092021     79
+  03-111-073-22092021     80
+  03-111-074-22092021     81
+  03-112-183-03112021     82
+  03-112-184-03112021     83
+  03-610-056-21092021     84
+  03-610-057-21092021     85
+  03-610-059-21092021     86
+  03-610-097-21092021     87
+  03-622-178-03112021     88
+  03-622-179-03112021     89
+  03-622-180-03112021     90
+  03-622-181-03112021     91
+  03-622-182-03112021     92
+  03-710-066-22092021     93
+  03-720-070-22092021     94
+  03-720-079-23092021     95
+  03-720-080-29092021     96
+  03-721-168-02112021     97
+  03-810-069-22092021     98
+   03-811-167-2112021     99
+  03-812-175-02112021    100
+  03-820-067-22092021    101
+  03-820-068-22092021    102
+  03-821-158-02112021    103
+  03-821-159-02112021    104
+  03-821-164-02112021    105
+  03-821-165-02112021    106
+  03-821-166-02112021    107
+  03-910-064-22092021    108
+  03-910-065-22092021    109
+  04-101-081-04102021    110
+  04-101-082-04102021    111
+  04-101-083-04102021    112
+  04-101-084-04102021    113
+  04-101-086-04102021    114
+  04-101-087-04102021    115
+  04-101-088-04102021    116
+  04-101-089-06102021    117
+  04-101-090-04102021    118
+  04-101-103-05102021    119
+  04-101-104-05102021    120
+  04-101-106-06102021    121
+  04-101-107-06102021    122
+  04-101-108-06102021    123
+  04-101-109-06102021    124
+  04-101-110-06102021    125
+  04-101-111-06102021    126
+  04-101-112-06102021    127
+  04-102-085-04102021    128
+  04-102-091-04102021    129
+  04-102-092-04102021    130
+  04-102-105-06102021    131
+  04-102-113-05102021    132
+  04-111-093-05102021    133
+  04-111-094-05102021    134
+  04-111-095-05102021    135
+  04-111-098-05102021    136
+  04-111-114-19102021    137
+  04-111-115-19102021    138
+  04-111-116-19102021    139
+  04-111-117-19102021    140
+  04-111-118-19102021    141
+  04-111-119-19102021    142
+  04-111-120-19102021    143
+  04-111-126-20102021    144
+  04-111-127-20102021    145
+  04-111-177-02112021    146
+  04-112-099-05102021    147
+  04-112-100-05102021    148
+  04-112-101-05102021    149
+  04-112-102-05102021    150
+  04-112-121-19102021    151
+  04-112-122-19102021    152
+  04-112-123-19102021    153
+  04-112-124-19102021    154
+  04-112-125-19102021    155
+  04-112-132-19102021    156
+  04-732-176-02112021    157
+  05-101-136-25102021    158
+  05-101-137-25102021    159
+  05-101-139-25102021    160
+  05-101-140-25102021    161
+  05-102-141-25102021    162
+  05-102-142-25102021    163
+  05-102-143-25102021    164
+  05-102-144-25102021    165
+  05-102-145-25102021    166
+  05-102-146-25102021    167
+  05-102-147-25102021    168
+  05-711-131-27102021    169
+  05-711-148-27102021    170
+  05-711-149-27102021    171
+  05-711-150-27102021    172
+  05-711-151-27102021    173
+  05-711-152-27102021    174
+  05-711-153-27102021    175
+  05-711-169-22112021    176
+  05-711-170-22112021    177
+  05-711-171-22112021    178
+  05-711-172-22112021    179
+  05-711-173-22112021    180
+  05-811-128-27102021    181
+  05-811-129-27102021    182
+  05-811-130-27102021    183
+  05-811-174-22112021    184
+  05-812-133-22112021    185
+  05-812-134-22112021    186
+  05-821-138-25102021    187
+  05-911-154-27102021    188
+   05-911-156-7102021    189
+  05-911-157-27102021    190
+  06-102-160-26102021    191
+  06-102-161-26102021    192
+  06-931-162-26102021    193
+  06-931-163-26102021    194
+-----
+
+
+-----
+Factor: MEMBER 
+Conversion:
+ level number
+     P      1
+     S      2
+-----
+
+TITLE: Your title goes here
+DATA: FILE = "Mplus_CFA.dat";
+VARIABLE: 
+NAMES = ID MEMBER SAFENH NHDELIN NHVENTA NHFIGHT NHEMPTY NHGRAF FAMRULE HMWORK
+     PARKNOW CMHOME CLRRULE CATCHAL CATCHSK HMCIG HMMARO HMMARR HMALC; 
+MISSING=.;</code></pre>
+</div>
+</div>
+</section>
+
+<section id="cfa-lavaan" class="title-slide slide level1 center">
+<h1>CFA Lavaan</h1>
+<p>Complete sample</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-10 ended normally after 66 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        37
+                                                      
+                                                  Used       Total
+  Number of observations                           378         388
+                                                                  
+Model Test User Model:
+                                                      
+  Test statistic                               319.339
+  Degrees of freedom                               116
+  P-value (Chi-square)                           0.000
+
+Model Test Baseline Model:
+
+  Test statistic                              1788.241
+  Degrees of freedom                               136
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.877
+  Tucker-Lewis Index (TLI)                       0.856
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)              -5580.596
+  Loglikelihood unrestricted model (H1)      -5420.926
+                                                      
+  Akaike (AIC)                               11235.192
+  Bayesian (BIC)                             11380.783
+  Sample-size adjusted Bayesian (BIC)        11263.390
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.068
+  90 Percent confidence interval - lower         0.059
+  90 Percent confidence interval - upper         0.077
+  P-value RMSEA &lt;= 0.05                          0.001
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.062
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  CRCDO =~                                                              
+    SAFENH            1.000                               0.291    0.512
+    NHDELIN           1.760    0.199    8.850    0.000    0.512    0.765
+    NHVENTA           1.795    0.203    8.835    0.000    0.522    0.760
+    NHFIGHT           1.326    0.166    8.014    0.000    0.386    0.611
+    NHEMPTY           0.741    0.124    5.965    0.000    0.215    0.392
+    NHGRAF            0.939    0.148    6.345    0.000    0.273    0.425
+  FRPFM =~                                                              
+    CATCHAL           1.000                               0.308    0.522
+    CATCHSK           1.038    0.131    7.938    0.000    0.319    0.552
+    CLRRULE           1.268    0.142    8.901    0.000    0.390    0.670
+    CMHOME            1.448    0.150    9.659    0.000    0.446    0.798
+    FAMRULE           0.809    0.112    7.206    0.000    0.249    0.478
+    HMWORK            1.195    0.144    8.282    0.000    0.368    0.591
+    PARKNOW           1.360    0.144    9.449    0.000    0.419    0.756
+  PRPRD =~                                                              
+    HMALC             1.000                               0.341    0.451
+    HMCIG             0.937    0.152    6.168    0.000    0.320    0.418
+    HMMARO            1.792    0.243    7.365    0.000    0.612    0.566
+    HMMARR            2.243    0.328    6.838    0.000    0.765    0.928
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  CRCDO ~~                                                              
+    FRPFM            -0.005    0.006   -0.928    0.354   -0.058   -0.058
+    PRPRD             0.010    0.006    1.547    0.122    0.098    0.098
+  FRPFM ~~                                                              
+    PRPRD            -0.009    0.006   -1.461    0.144   -0.090   -0.090
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .SAFENH            0.239    0.019   12.546    0.000    0.239    0.738
+   .NHDELIN           0.186    0.021    8.747    0.000    0.186    0.416
+   .NHVENTA           0.199    0.022    8.877    0.000    0.199    0.422
+   .NHFIGHT           0.250    0.021   11.697    0.000    0.250    0.626
+   .NHEMPTY           0.256    0.020   13.140    0.000    0.256    0.847
+   .NHGRAF            0.338    0.026   13.005    0.000    0.338    0.819
+   .CATCHAL           0.253    0.020   12.811    0.000    0.253    0.728
+   .CATCHSK           0.233    0.018   12.648    0.000    0.233    0.695
+   .CLRRULE           0.187    0.016   11.683    0.000    0.187    0.551
+   .CMHOME            0.113    0.012    9.264    0.000    0.113    0.363
+   .FAMRULE           0.209    0.016   13.006    0.000    0.209    0.771
+   .HMWORK            0.252    0.020   12.399    0.000    0.252    0.651
+   .PARKNOW           0.132    0.013   10.322    0.000    0.132    0.429
+   .HMALC             0.455    0.036   12.736    0.000    0.455    0.796
+   .HMCIG             0.484    0.037   12.983    0.000    0.484    0.826
+   .HMMARO            0.795    0.071   11.253    0.000    0.795    0.680
+   .HMMARR            0.095    0.062    1.523    0.128    0.095    0.139
+    CRCDO             0.085    0.018    4.792    0.000    1.000    1.000
+    FRPFM             0.095    0.019    5.045    0.000    1.000    1.000
+    PRPRD             0.116    0.029    4.082    0.000    1.000    1.000</code></pre>
+</div>
+</div>
+</section>
+
+<section id="parents" class="title-slide slide level1 center">
+<h1>Parents</h1>
+<div class="cell">
+
+</div>
+</section>
+
+<section id="students" class="title-slide slide level1 center">
+<h1>Students</h1>
+<div class="cell">
+
+</div>
+
+<img src="images/umlogo.svg" class="slide-logo r-stretch"><div class="footer footer-default">
+<p>Advanced Research Methods, Fall 2022</p>
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="software_integration_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="software_integration_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="software_integration_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="software_integration_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true,"boardmarkerWidth":5},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          // dispatch for htmlwidgets
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for reveal
+        if (window.Reveal) {
+          window.Reveal.addEventListener("slidechanged", function(event) {
+            fireSlideChanged(event.previousSlide, event.currentSlide);
+          });
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        target: function(trigger) {
+          return trigger.previousElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        setTimeout(function() {
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto-reveal',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          let href = ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+        tippyHover(ref, function() {
+          var popup = window.document.createElement('div');
+          cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    });
+    </script>
+    
+
+</body></html>

@@ -1,0 +1,535 @@
+---
+title: "Software integration"
+author:   
+  - Francisco Cardozo 
+  - Eric Brown
+format:
+  revealjs: 
+    theme: simple
+    logo: "images/umlogo.svg"
+    footer: "Advanced Research Methods, Fall 2022"
+editor_options: 
+  chunk_output_type: console
+---
+
+## Agenda
+
+```{r libraries0, echo=FALSE}
+library(readxl)
+library(kableExtra)
+library(tidyverse)
+library(GGally)
+```
+
+-   Multitrait-Multimethod Matrix
+-   Data set
+-   Analysis
+-   R and *M*plus
+
+## Prevention of alcohol use
+
+::: r-fit-text
+We usually measure risk factors by asking students in the schools, but because of Covid, it was impossible.
+
+We wanted to ask while they were at homes, but it was extremely complicated because of biases and logistics.
+
+What happens if we ask parents?
+
+Is the parent evaluation of the student's risk a good approximation of the student's risk?
+
+What is the correlation between students' and parents' perceptions of risk?
+:::
+
+## Multitrait-Multimethod Matrix in R
+
+The data set contains:
+
+-   Risk and protective factors
+-   Parent's and students' perspective
+
+## Community Disorganization (CRCDO)
+
+How much do each of the following statements describe your neighborhood?
+
+```{r}
+
+CRCDO <- read_xlsx("./tables/CRCDO.xlsx")
+
+CRCDO  |>  
+ kable() |>  
+ kable_styling("striped", full_width = T, 
+               font_size = 22) |>  
+ column_spec(1, width = "5em") |>  
+ row_spec(0, bold = TRUE, font_size = 26)
+```
+
+## Perceived Risks of Drug Use (PRPRD)
+
+How much do you think people risk harming themselves (physically or in other ways) if they...
+
+```{r}
+
+RISK <- read_xlsx("./tables/RISK.xlsx")
+
+RISK |>   
+ kable() |>  
+ kable_styling("striped", full_width = F, 
+               font_size = 22) |>  
+ column_spec(1, width = "5em") |>  
+ row_spec(0, bold = TRUE, font_size = 26)
+```
+
+## Poor Family Management (FRPFM)
+
+In your family...
+
+```{r}
+#02_Concepts_in_meassurement_data_analysis
+FM <- read_xlsx("./tables/FM.xlsx")
+
+FM |>   
+ kable() |>  
+ kable_styling("striped", full_width = F, 
+               font_size = 18) |>  
+ column_spec(1, width = "5em") |>  
+ row_spec(0, bold = TRUE, font_size = 26)
+```
+
+--
+
+# Multitrait-Multimethod Matrix
+
+*Multimethod*= Parent and Child
+
+*Multitrait* = Community Disorganization, Poor Family Management, and Perceived Risks of Drug Use
+
+```{r libraries, message=FALSE, warning=FALSE}
+library(tidyverse) # Data wrangling 
+library(psych) # alpha function
+library(MplusAutomation) # to use *M*plus
+library(kableExtra) # make tables pretty
+library(GGally) # correlation plots
+library(table1) # To tables
+```
+
+```{r data, include=FALSE}
+#02_Concepts_in_meassurement_data_analysis
+dyads <- read.csv("tables/dyads.csv", stringsAsFactors = F)
+
+dyads <-  
+  dyads |> mutate(answer=case_when(VARNAME=="SAFENH" & answer==1 ~ 4,
+                                   VARNAME=="SAFENH" & answer==2 ~ 3,
+                                   VARNAME=="SAFENH" & answer==3 ~ 2,
+                                   VARNAME=="SAFENH" & answer==4 ~ 1,
+                                   FACTORNAME=="FRPFM" & answer==1 ~ 4,
+                                   FACTORNAME=="FRPFM" & answer==2 ~ 3,
+                                   FACTORNAME=="FRPFM" & answer==3 ~ 2,
+                                   FACTORNAME=="FRPFM" & answer==4 ~ 1,
+                                   TRUE ~ as.numeric(answer))) |>
+  mutate(MEMBER=case_when(MEMBER=="Parent" ~ "P",
+                          MEMBER=="Student" ~ "S"))
+
+```
+
+# Plot your data {background-color="#ffe700"}
+
+## Descriptives
+
+```{r descriptivies, message=FALSE, echo=FALSE, dev='svg'}
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
+  select(ID, MEMBER, answer, VARNAME, NAME_EN) |> 
+  mutate(MEMBER=ifelse(MEMBER=="P", "PARENT", "STUDENT")) |> 
+  group_by(ID, MEMBER, NAME_EN) |> 
+  summarise(mean=mean(answer, na.rm=T)) |> 
+  mutate(NAME_EN=str_wrap(NAME_EN, 15)) |> 
+  ggplot(aes(NAME_EN, mean, fill=MEMBER)) + 
+  geom_boxplot(color="black") +
+  theme_minimal(base_size=16) +
+  scale_fill_manual(values = c("#FFC20A","#0C7BDC")) +
+  labs(x="", y="Risk factor mean")
+  
+
+```
+
+## Cronbach's Alpha
+
+```{r, message=FALSE, comment='', echo=FALSE}
+
+# Save items in this objects. I can uses the object to select variables from the big data set.
+CR <- dyads |> filter(FACTORNAME == "CRCDO") |>  pull(VARNAME) |> 
+  unique()
+PR <- dyads |> filter(FACTORNAME == "PRPRD") |>  pull(VARNAME) |> 
+  unique()
+FR <-  dyads |> filter(FACTORNAME == "FRPFM") |>  pull(VARNAME) |> 
+  unique()
+
+alpha_CR <- dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = VARNAME , values_from = answer)  |> 
+  select(CR) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+alpha_PR <-  dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = VARNAME , values_from = answer)  |> 
+  select(PR) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+alpha_FR <- dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = VARNAME , values_from = answer)  |> 
+  select(FR) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+
+```
+
+Community Disorganization = `r round(alpha_CR,3)`
+
+Perceived Risk of Drug Use = `r round(alpha_PR,3)`
+
+Poor Family Management = `r round(alpha_FR,3)`
+
+## Cronbach's Alpha Community Disorganization (CRCDO)
+
+Parent, student
+
+```{r,message=FALSE, echo=FALSE, comment=''}
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = c(MEMBER, VARNAME) , values_from = answer)  |> 
+  select(paste0("P_",CR)) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = c(MEMBER, VARNAME) , values_from = answer)  |> 
+  select(paste0("S_",CR)) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+
+```
+
+## Cronbach's Alpha Perceived Risks of Drug Use (PRPRD)
+
+Parent, student
+
+```{r,message=FALSE, echo=FALSE, comment=''}
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = c(MEMBER, VARNAME) , values_from = answer)  |> 
+  select(paste0("P_",PR)) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = c(MEMBER, VARNAME) , values_from = answer)  |> 
+  select(paste0("S_",PR)) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+
+```
+
+## Cronbach's Alpha Poor Family Management (FRPFM)
+
+Parent, student
+
+```{r,message=FALSE, echo=FALSE, comment=''}
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = c(MEMBER, VARNAME) , values_from = answer)  |> 
+  select(paste0("P_",FR))|> (function(x) alpha( x))() |> 
+  pluck(1,1)
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
+  select(MEMBER, ID, VARNAME, answer) |> 
+  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
+  pivot_wider(names_from = c(MEMBER, VARNAME) , values_from = answer)  |> 
+  select(paste0("S_",FR)) |> (function(x) alpha( x))() |> 
+  pluck(1,1)
+```
+
+## MultiTrait MultiMethod Matrix
+
+```{r, warning=FALSE, echo=FALSE, comment='', message=FALSE}
+#| fig-cap: 
+#| - "**CRCDO**= Community Disorganization, **PRPRD**= Perceived Risks of Drug Use, **FRPFM**= Poor Family Management"
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
+  group_by(MEMBER, ID, FACTORNAME) |>
+  summarise(mean= mean(answer)) |> 
+  pivot_wider(names_from = c(MEMBER, FACTORNAME) , values_from = mean ) |> 
+  ggpairs(columns = 2:7, 
+          lower  = list(continuous = "blank"),
+             diag  = list(continuous = "blankDiag")) 
+```
+
+## MultiTrait MultiMethod Matrix
+
+```{r, warning=FALSE, echo=FALSE, comment='', message=FALSE}
+#| fig-cap: 
+#| - "**CRCDO**= Community Disorganization, **PRPRD**= Perceived Risks of Drug Use, **FRPFM**= Poor Family Management"
+
+dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
+  group_by(MEMBER, ID, FACTORNAME) |>
+  summarise(mean= mean(answer)) |> 
+  pivot_wider(names_from = c(MEMBER, FACTORNAME) , values_from = mean ) |> 
+  ggpairs(columns = 2:5, 
+          lower = list(continuous = wrap("smooth", se=FALSE)))
+```
+
+# "All software are wrong, but some are useful" {background-color="#ffe700"}
+
+## R and *M*plus
+
+::: columns
+::: {.column width="40%"}
+R
+
+-   Integrate your data and text
+-   Lot of tools for data manipulation
+-   Packages
+:::
+
+::: {.column width="60%"}
+*M*plus
+
+-   Highly structured syntax
+-   Complete outputs
+-   Better for structural models?
+:::
+:::
+
+## Data set in long format
+
+::: {style="font-size: 0.7em"}
+You have ID column, and the participants (unit of analysis) appear multiple times in different rows.
+:::
+
+<br>
+
+::: {style="font-size: 0.5em; text-align: center"}
+| ID  | Member  | Risk Factor | Item  | Answer | Label |
+|-----|---------|-------------|-------|:------:|-------|
+| 1   | Parent  | RF1         | Item1 |   2    | no    |
+| 1   | Parent  | RF1         | Item2 |   3    | yes   |
+| 1   | Student | RF1         | Item1 |   2    | no    |
+| 1   | Student | RF1         | Item2 |   1    | YES!  |
+| 1   | Parent  | RF2         | Item1 |   4    | NO!   |
+| 1   | Parent  | RF2         | Item2 |   2    | no    |
+| 1   | Student | RF2         | Item1 |   3    | yes   |
+| 1   | Student | RF2         | Item2 |   2    | no    |
+| 2   | Parent  | RF1         | Item1 |   4    | NO!   |
+| 2   | Parent  | RF1         | Item2 |   2    | yes   |
+| 2   | Student | RF1         | Item1 |   3    | no    |
+| 2   | Student | RF1         | Item2 |   1    | YES!  |
+:::
+
+## Data set in wide format
+
+::: {style="font-size: 0.7em"}
+You still have the ID column, but the participants (unit of analysis) only appear once.
+:::
+
+<br>
+
+::: {style="font-size: 0.5em; text-align: center"}
+| ID  | Parent_RF1_item1 | Parent_RF1_item2 | Student_RF1_Item1 | Student_RF1_Item2 |
+|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
+| 1   |        1         |        3         |         2         |         1         |
+| 2   |        4         |        2         |         3         |         1         |
+:::
+
+## Long and wide format
+
+<iframe data-src="tidyr.pdf" width="1000" height="500">
+
+</iframe>
+
+## Click {background-color="#ffe700"}
+
+Click to go to the lab. [Practice](https://francisco-cardozo.shinyapps.io/Pivot/#section-the-data-set)
+
+# Mplus
+
+## *M*plus automation
+
+A package:
+
+-   Run *M*plus scripts from R.
+-   Convert data into *M*plus format.
+-   Generate *M*plus scripts
+-   Read *M*plus outputs into R
+-   Plot model results
+
+## MplusAutomation
+
+```{r install-mpl, echo=TRUE, eval=FALSE}
+# 1. Install to save the package in your computer. 
+# You only need to do this once
+install.packages("MplusAutomation") 
+
+# 2. Call the package to activate the functions saved in the package.
+library(MplusAutomation) 
+```
+
+<br>
+
+<iframe data-src="MplusAutomation.pdf" width="1100" height="300">
+
+</iframe>
+
+## MplusAutomation
+
+Before you start pivoting your data, begin by...
+
+<br>
+
+```{r import-libraries, echo=TRUE, eval=FALSE}
+library(readxl) # To read excel files in R
+library(tidyverse) # To activate the "pivot" functions
+library(MplusAutomation) # To activate the function "prepareMplusData"
+
+dyads <- read_xlsx("./replace_this_with_the_name_of_your_data_file.xlsx")
+
+```
+
+## MplusAutomation
+
+```{r, echo=TRUE, eval=FALSE, `code-line-numbers`="2-8"}
+
+# Pivot wider your data
+Mplus_dyads <- 
+  dyads |> 
+  group_by(ID, MEMBER, FACTORNAME) |>
+  summarise(MEAN= mean(ANSWER)) |> 
+  pivot_wider(names_from = c(MEMBER, FACTORNAME),
+              values_from = MEAN) 
+
+# Define missing data value
+Mplus_dyads[is.na(Mplus_dyads)] <- 999
+
+# Export your data to Mplus
+prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
+
+```
+
+## MplusAutomation
+
+```{r, echo=TRUE, eval=FALSE, `code-line-numbers`="9-10"}
+# Pivot wider your data
+Mplus_dyads <- 
+  dyads |> 
+  group_by(ID, MEMBER, FACTORNAME) |>
+  summarise(MEAN= mean(ANSWER)) |> 
+  pivot_wider(names_from = c(MEMBER, FACTORNAME),
+              values_from = MEAN) 
+
+# Define missing data value
+Mplus_dyads[is.na(Mplus_dyads)] <- 999
+
+# Export your data to Mplus
+prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
+
+```
+
+## MplusAutomation
+
+```{r, echo=TRUE, eval=FALSE, `code-line-numbers`="11-13"}
+# Pivot wider your data
+Mplus_dyads <- 
+  dyads |> 
+  group_by(ID, MEMBER, FACTORNAME) |>
+  summarise(MEAN= mean(ANSWER)) |> 
+  pivot_wider(names_from = c(MEMBER, FACTORNAME),
+              values_from = MEAN) 
+
+# Define missing data value
+Mplus_dyads[is.na(Mplus_dyads)] <- 999
+
+# Export your data to Mplus
+prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
+
+```
+
+## MplusAutomation
+
+::: columns
+::: {.column width="50%"}
+![](images/console.png)
+:::
+
+::: {.column width="50%"}
+![](images/datafile.png){width="\"80%"}
+:::
+:::
+
+# CFA in Lavaan
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+Mplus_cfa  <- dyads |> 
+  filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
+  select(ID, MEMBER, VARNAME, answer) |> 
+  pivot_wider(names_from = VARNAME , values_from = answer,
+              id_cols = c("ID", "MEMBER"))
+
+Mplus_cfa[is.na(Mplus_cfa)] <- 999
+
+prepareMplusData(Mplus_cfa, "Mplus_CFA.dat")
+```
+
+# CFA Lavaan
+
+Complete sample
+
+```{r,  comment=''}
+
+library(lavaan)
+
+model  <- '
+
+CRCDO =~  SAFENH + NHDELIN + NHVENTA + NHFIGHT + NHEMPTY + NHGRAF
+
+FRPFM =~  CATCHAL + CATCHSK + CLRRULE + CMHOME + FAMRULE + HMWORK + PARKNOW
+
+PRPRD =~ HMALC  + HMCIG + HMMARO + HMMARR
+
+'
+
+Mplus_cfa[Mplus_cfa==999] <- NA
+
+# Entire sample
+cfa_results <- cfa(model, data=Mplus_cfa) |> 
+  summary(standardized=TRUE, fit.measures=TRUE) 
+
+
+
+```
+
+# Parents
+
+```{r, comment='', eval=FALSE}
+Mplus_cfa |> filter(MEMBER=="P") |> 
+  cfa(model, data=_ )  |> 
+  summary(standardized=TRUE, fit.measures=TRUE)
+```
+
+# Students
+
+```{r, comment='', eval=FALSE}
+Mplus_cfa |> filter(MEMBER=="S") |> 
+  cfa(model, data=_)  |> 
+  summary(standardized=TRUE,fit.measures=TRUE)
+
+
+```

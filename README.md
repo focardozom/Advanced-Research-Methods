@@ -1,3 +1,4 @@
 # Advanced Research Methods
 
-## [Software integration](https://rpubs.com/focardozom2/938944)
+## [Software integration](https://rpubs.com/focardozom2/softwareinteg)
+## [Dyadic Data analysis](https://rpubs.com/focardozom2/dyadicDataAnalysis)

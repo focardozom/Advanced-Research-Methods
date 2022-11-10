@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap');
+
+/*-- scss:defaults --*/
+
+// fonts
+$font-family: 'Poor Story', cursive;
+$font-family-sans-serif: 'Dosis', sans-serif;
+// colors
+$body-bg: white !default;
+$body-color: #000 !default;
+$link-color: #9bc53d !default;
+$selection-bg: #fde74c !default;
+
+// headings
+$presentation-heading-font: 'Poor Story', serif !default;
+$presentation-heading-color: #5bc0eb !default;
+
+
+/*-- scss:rules --*/
+
+.reveal a {
+  line-height: 1.3em;
+}

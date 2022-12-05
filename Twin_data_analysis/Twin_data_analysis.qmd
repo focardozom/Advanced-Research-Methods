@@ -1,0 +1,137 @@
+---
+title: "Twin Data"
+author: "Francisco Cardozo"
+institute: "University of Miami"
+date: 2022-12-06
+format: 
+  revealjs:
+    slide-number: true
+    theme: [custom/custom.scss]
+    logo: "img/umlogo.svg"
+    footer: "EPH 701 Social Genomics"
+    chalkboard: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Twin data
+
+- Twin data are dyadic data (Non-independence)
+- Twins are more similar than a random person in the data set.
+- Twins models can separate variance into genetic and environmental sources.
+
+
+## Dyadic Data Analsyis: SEM approach {background-color="#D4D925"}
+
+![](img/cfa_dyadic.svg){fig-align="center" height=500}
+
+## Variance Components
+
+- Poposed orignailly by [Shaun Purcell](https://pubmed.ncbi.nlm.nih.gov/?term=Purcell+S&cauthor_id=12573187)
+
+  * Additive variation in genotype (A)
+  * Shared environment (C)
+  * Nonshared environment (E)
+
+- Moderation: 
+
+::: r-fit-text
+
+> "The parameters of interest (e.g., a2, c2, and e2) are estimated for "exposed" and "unexposed" individuals separately." 
+
+> "A test of G × E is given by equating the parameters across exposure groups and observing the associated decline in model fit."
+
+:::
+
+
+## Example 
+
+::: r-fit-text
+- [Harden KP, Turkheimer E, Loehlin JC. Genotype by environment interaction in adolescents' cognitive aptitude. Behav Genet. 2007 Mar;37(2):273-83. doi: 10.1007/s10519-006-9113-4. Epub 2006 Sep 15. PMID: 16977503; PMCID: PMC2903846](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2903846/)
+
+> "Our investigation supports our hypothesis that the magnitude of genetic influences on cognitive aptitude varies with socioeconomic status. ... Our results suggest that differences between middle-class and affluent parents affect the expression of genetic potential."
+
+- [Turkheimer, E., Haley, A., Waldron, M., D'Onofrio, B., & Gottesman, I. I. (2003). Socioeconomic status modifies the heritability of IQ in young children. Psychological science, 14(6), 623–628. https://doi.org/10.1046/j.0956-7976.2003.psci_1475.x](https://pubmed.ncbi.nlm.nih.gov/14629696/)
+
+> The models suggest that in impoverished families, 60% of the variance in IQ is accounted for by the shared environment, and the contribution of genes is close to zero; in affluent families, the result is almost
+exactly the reverse.
+
+:::
+
+## Turkheimer, et al.  {background-color="#D4D925"}
+
+![](img/ACE-1.svg){fig-align="center" height=550}
+
+## Harden, et al.  
+
+- They wanted to study the genes-environment interaction 
+- They changed the SES measure to parents' income and education
+- They have two different types of twin 
+	- MZ monozygotic.
+	- DZ dizygotic.
+- They estimated the following model.  
+
+## Genes Enviroment Interaction (GxE) {background-color="#D4D925"}
+
+![](img/ACE_int.svg){fig-align="center" height=550}
+
+## The model
+
+> ACE are latent variables with mean = 0, SD = 1, and the squared path coefficient from the A component to the phenotype == the heritability. The GxE model estimates that path coefficient as the function of the measured environmental variable (ENV): a + a' X env, such that a2 is the heritability when ENV ==0 (if it has been standardized to M = 0, SD = 1, then at the mean of the environmental variable) and a' is the interaction parameter.
+
+## Results
+
+![](img/results1.png){fig-align="center" height=350}
+
+## Results 2
+
+![](img/results2.png){fig-align="center" height=350}
+
+# Other models
+
+## More models {background-color="#D4D925"}
+
+[Factor Mixture Analysis](https://www.statmodel.com/download/TRHG-Muthen.pdf)
+
+![](img/FMA.svg){fig-align="center" height=450}
+
+
+## More models {background-color="#D4D925"}
+
+[Factor Mixture ACE analysis](https://www.statmodel.com/download/TRHG-Muthen.pdf)
+
+![](img/FMAACE.svg){fig-align="center" height=450}
+
+
+## More models
+
+- [ACDE](https://humanvarieties.org/2022/07/18/classical-twin-data-and-the-acde-model/)
+  - D for non-additive genes
+  - [Continous](https://www.tandfonline.com/doi/pdf/10.1080/10705511.2020.1789465)
+  - [Categorical]( https://www.tandfonline.com/doi/full/10.1080/10705511.2021.1927042)
+
+- [AC'RE](https://link.springer.com/article/10.1007/s10519-021-10055-x)
+  - The common environments (C) are partitioned into a rearing environment (R) and an extended community or family environment (C'). 
+
+
+## Potential application
+
+- Analysis of dyadic data.
+
+|   | Parent    | Student   | n    |
+|---|-----------|-----------|:----:|
+| 1 | Female    | Female    | 114  |   
+| 2 | Female    | Male      | 55   |   
+| 3 | Male      | Female    | 16   |   
+| 4 | Male      | Male      | 9    |   
+
+## Potential application
+
+Sex differences in perception of risk?
+
+![](img/proposal.svg){fig-align="center" height=350}
+
+# Thanks
+
+
+

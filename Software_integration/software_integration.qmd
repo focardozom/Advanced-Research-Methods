@@ -1,59 +1,132 @@
 ---
-title: "Software integration"
+title: "All softwares are wrong, but some are useful"
 author:   
   - Francisco Cardozo 
   - Eric Brown
+institute: 
+  - University of Miami
+  - University of Miami
+date: 2024-02-09
+date-format: long
 format:
   revealjs: 
     theme: simple
+    css: style.css
     logo: "images/umlogo.svg"
-    footer: "Advanced Research Methods, Fall 2022"
+    footer: "Advanced Research Methods, Spring 2024"
 editor_options: 
   chunk_output_type: console
+title-slide-attributes: 
+      data-background-color: "#ffe700"
 ---
 
 ## Agenda
 
-```{r libraries0, echo=FALSE}
-library(readxl)
-library(kableExtra)
-library(tidyverse)
-library(GGally)
-```
-
--   Multitrait-Multimethod Matrix
--   Data set
--   Analysis
 -   R and *M*plus
+-   Data set
+-   Multitrait-Multimethod Matrix
+-   Pre-processing
+-   CFA
+
+# R and *M*plus {background-color="#ffe700"}
+
+## R and *M*plus
+
+::: columns
+::: {.column width="40%"}
+**R**
+
+-   Integrate your data, analysis and text
+-   Tools for data manipulation
+-   Packages
+-   Free
+
+:::
+
+::: {.column width="60%"}
+***M*plus**
+
+-   Consistent syntax
+-   Informative outputs
+-   Specialized for SEM models
+-   Awesome Blog
+
+:::
+:::
+
+## Integrate both
+
+You can use R to generate:
+
+- Data sets to *M*plus format
+- Create *M*plus code
+- Run *M*plus code
+- Read *M*plus outputs
+
+Keep your work on *M*plus and use R to write the report. 
+
+> *M*plus  -> R 
+
+## Before jumping to *M* plus...
+
+*M*plus requires that your data is almost ready for analysis. You can do pre-processing in *M*plus (like filter of computing variables) but it is not the best tool for that work. 
+
+R is great for data pre-processing. 
+
+> R -> *M*plus -> R
+
+## R has packages to do SEM Analysis
+
+- [lavaan](https://lavaan.ugent.be/)
+  - CFA  
+  - Growth Curves
+  - Mediation
+  - Multilevel SEM
+- [polca](https://dlinzer.github.io/poLCA/)
+  - Latent Class Analysis
+- [simsem](https://simsem.org/)
+  - Simulated Structural Equation Modeling
+
+# Example {background-color="#ffe700"}
+
 
 ## Prevention of alcohol use
 
 ::: r-fit-text
 We usually measure risk factors by asking students in the schools, but because of Covid, it was impossible.
 
-We wanted to ask while they were at homes, but it was extremely complicated because of biases and logistics.
+We wanted to ask while they were at home, but it was extremely complicated because of biases and logistics.
 
-What happens if we ask parents?
+> *What happens if we ask parents?* 🤔
 
 Is the parent evaluation of the student's risk a good approximation of the student's risk?
 
 What is the correlation between students' and parents' perceptions of risk?
 :::
 
-## Multitrait-Multimethod Matrix in R
+## Data set
 
 The data set contains:
 
 -   Risk and protective factors
 -   Parent's and students' perspective
 
+
+
 ## Community Disorganization (CRCDO)
 
 How much do each of the following statements describe your neighborhood?
 
+```{r message=FALSE, echo=FALSE}
+library(readxl)
+library(kableExtra)
+library(tidyverse)
+library(here)
+```
+
 ```{r}
 
-CRCDO <- read_xlsx("./tables/CRCDO.xlsx")
+CRCDO <- read_xlsx(here("software_integration/tables/CRCDO.xlsx"))
 
 CRCDO  |>  
  kable() |>  
@@ -69,7 +142,7 @@ How much do you think people risk harming themselves (physically or in other way
 
 ```{r}
 
-RISK <- read_xlsx("./tables/RISK.xlsx")
+RISK <- read_xlsx(here("software_integration/tables/RISK.xlsx"))
 
 RISK |>   
  kable() |>  
@@ -85,7 +158,7 @@ In your family...
 
 ```{r}
 #02_Concepts_in_meassurement_data_analysis
-FM <- read_xlsx("./tables/FM.xlsx")
+FM <- read_xlsx(here("software_integration/tables/FM.xlsx"))
 
 FM |>   
  kable() |>  
@@ -97,13 +170,13 @@ FM |>
 
 --
 
-# Multitrait-Multimethod Matrix
+# Multitrait-Multimethod Matrix  {background-color="#ffe700"}
 
 *Multimethod*= Parent and Child
 
 *Multitrait* = Community Disorganization, Poor Family Management, and Perceived Risks of Drug Use
 
-```{r libraries, message=FALSE, warning=FALSE}
+```{r libraries, eval=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse) # Data wrangling 
 library(psych) # alpha function
 library(MplusAutomation) # to use *M*plus
@@ -114,7 +187,7 @@ library(table1) # To tables
 
 ```{r data, include=FALSE}
 #02_Concepts_in_meassurement_data_analysis
-dyads <- read.csv("tables/dyads.csv", stringsAsFactors = F)
+dyads <- read.csv(here("software_integration/tables/dyads.csv"), stringsAsFactors = F)
 
 dyads <-  
   dyads |> mutate(answer=case_when(VARNAME=="SAFENH" & answer==1 ~ 4,
@@ -131,30 +204,23 @@ dyads <-
 
 ```
 
-# Plot your data {background-color="#ffe700"}
 
-## Descriptives
 
-```{r descriptivies, message=FALSE, echo=FALSE, dev='svg'}
-
-dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
-  select(ID, MEMBER, answer, VARNAME, NAME_EN) |> 
-  mutate(MEMBER=ifelse(MEMBER=="P", "PARENT", "STUDENT")) |> 
-  group_by(ID, MEMBER, NAME_EN) |> 
-  summarise(mean=mean(answer, na.rm=T)) |> 
-  mutate(NAME_EN=str_wrap(NAME_EN, 15)) |> 
-  ggplot(aes(NAME_EN, mean, fill=MEMBER)) + 
-  geom_boxplot(color="black") +
-  theme_minimal(base_size=16) +
-  scale_fill_manual(values = c("#FFC20A","#0C7BDC")) +
-  labs(x="", y="Risk factor mean")
-  
-
+```{r message=FALSE, warning=FALSE}
+library(tidyverse) # Data wrangling 
+library(psych) # alpha function
+library(MplusAutomation) # to use *M*plus
+library(kableExtra) # make tables pretty
+library(GGally) # correlation plots
+library(table1) # To tables
 ```
+
 
 ## Cronbach's Alpha
 
-```{r, message=FALSE, comment='', echo=FALSE}
+```{r alpha, message=FALSE, comment='', echo=FALSE}
+
+library(psych)
 
 # Save items in this objects. I can uses the object to select variables from the big data set.
 CR <- dyads |> filter(FACTORNAME == "CRCDO") |>  pull(VARNAME) |> 
@@ -166,7 +232,6 @@ FR <-  dyads |> filter(FACTORNAME == "FRPFM") |>  pull(VARNAME) |>
 
 alpha_CR <- dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
   select(MEMBER, ID, VARNAME, answer) |> 
-  group_by(MEMBER, ID, VARNAME) |> ungroup() |>  
   pivot_wider(names_from = VARNAME , values_from = answer)  |> 
   select(CR) |> (function(x) alpha( x))() |> 
   pluck(1,1)
@@ -261,7 +326,7 @@ dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
 
 ## MultiTrait MultiMethod Matrix
 
-```{r, warning=FALSE, echo=FALSE, comment='', message=FALSE}
+```{r, warning=FALSE, echo=FALSE, comment=''}
 #| fig-cap: 
 #| - "**CRCDO**= Community Disorganization, **PRPRD**= Perceived Risks of Drug Use, **FRPFM**= Poor Family Management"
 
@@ -274,46 +339,28 @@ dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |>
              diag  = list(continuous = "blankDiag")) 
 ```
 
-## MultiTrait MultiMethod Matrix
+# Pre-processing {background-color="#ffe700"}
 
-```{r, warning=FALSE, echo=FALSE, comment='', message=FALSE}
-#| fig-cap: 
-#| - "**CRCDO**= Community Disorganization, **PRPRD**= Perceived Risks of Drug Use, **FRPFM**= Poor Family Management"
+## Data set in wide format
 
-dyads |> filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
-  group_by(MEMBER, ID, FACTORNAME) |>
-  summarise(mean= mean(answer)) |> 
-  pivot_wider(names_from = c(MEMBER, FACTORNAME) , values_from = mean ) |> 
-  ggpairs(columns = 2:5, 
-          lower = list(continuous = wrap("smooth", se=FALSE)))
-```
-
-# "All software are wrong, but some are useful" {background-color="#ffe700"}
-
-## R and *M*plus
-
-::: columns
-::: {.column width="40%"}
-R
-
--   Integrate your data and text
--   Lot of tools for data manipulation
--   Packages
+::: {style="font-size: 0.7em"}
+You have an ID column, but the participants (unit of analysis) only appear once.
 :::
 
-::: {.column width="60%"}
-*M*plus
+<br>
 
--   Highly structured syntax
--   Complete outputs
--   Better for structural models?
+::: {style="font-size: 0.5em; text-align: center"}
+| ID  | Parent_RF1_item1 | Parent_RF1_item2 | Student_RF1_Item1 | Student_RF1_Item2 |
+|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
+| 1   |        1         |        3         |         2         |         1         |
+| 2   |        4         |        2         |         3         |         1         |
 :::
-:::
+
 
 ## Data set in long format
 
 ::: {style="font-size: 0.7em"}
-You have ID column, and the participants (unit of analysis) appear multiple times in different rows.
+You have ID column, and the participants are repeated multiple times in different rows.
 :::
 
 <br>
@@ -335,20 +382,6 @@ You have ID column, and the participants (unit of analysis) appear multiple time
 | 2   | Student | RF1         | Item2 |   1    | YES!  |
 :::
 
-## Data set in wide format
-
-::: {style="font-size: 0.7em"}
-You still have the ID column, but the participants (unit of analysis) only appear once.
-:::
-
-<br>
-
-::: {style="font-size: 0.5em; text-align: center"}
-| ID  | Parent_RF1_item1 | Parent_RF1_item2 | Student_RF1_Item1 | Student_RF1_Item2 |
-|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
-| 1   |        1         |        3         |         2         |         1         |
-| 2   |        4         |        2         |         3         |         1         |
-:::
 
 ## Long and wide format
 
@@ -356,13 +389,11 @@ You still have the ID column, but the participants (unit of analysis) only appea
 
 </iframe>
 
-## Click {background-color="#ffe700"}
+# Click to go to the [Practice](https://francisco-cardozo.shinyapps.io/Pivot/#section-the-data-set) {background-color="#ffe700"}
 
-Click to go to the lab. [Practice](https://francisco-cardozo.shinyapps.io/Pivot/#section-the-data-set)
+# `MplusAutomation`
 
-# Mplus
-
-## *M*plus automation
+## `MplusAutomation`
 
 A package:
 
@@ -393,7 +424,12 @@ library(MplusAutomation)
 
 Before you start pivoting your data, begin by...
 
-<br>
+Import your data
+
+  * [bulkreadr](https://gbganalyst.github.io/bulkreadr/) 
+  * [haven](https://github.com/tidyverse/haven) 
+  * [readxl](https://readxl.tidyverse.org/) 
+
 
 ```{r import-libraries, echo=TRUE, eval=FALSE}
 library(readxl) # To read excel files in R
@@ -406,57 +442,38 @@ dyads <- read_xlsx("./replace_this_with_the_name_of_your_data_file.xlsx")
 
 ## MplusAutomation
 
-```{r, echo=TRUE, eval=FALSE, `code-line-numbers`="2-8"}
+Reshape data from long to wide format. 
+
+```{r, echo=TRUE, "code-line-numbers"="2-7"}
 
 # Pivot wider your data
 Mplus_dyads <- 
   dyads |> 
-  group_by(ID, MEMBER, FACTORNAME) |>
-  summarise(MEAN= mean(ANSWER)) |> 
-  pivot_wider(names_from = c(MEMBER, FACTORNAME),
-              values_from = MEAN) 
+  filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
+  select(ID, MEMBER, VARNAME, answer) |> 
+  pivot_wider(names_from = c(MEMBER, VARNAME),
+              values_from = answer) 
 
-# Define missing data value
-Mplus_dyads[is.na(Mplus_dyads)] <- 999
+Mplus_dyads |> head(2) |> gt::gt()
 
-# Export your data to Mplus
-prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
+
 
 ```
 
 ## MplusAutomation
 
-```{r, echo=TRUE, eval=FALSE, `code-line-numbers`="9-10"}
-# Pivot wider your data
-Mplus_dyads <- 
-  dyads |> 
-  group_by(ID, MEMBER, FACTORNAME) |>
-  summarise(MEAN= mean(ANSWER)) |> 
-  pivot_wider(names_from = c(MEMBER, FACTORNAME),
-              values_from = MEAN) 
+Recode missing data 
+
+```{r, echo=TRUE, eval=FALSE, "code-line-numbers"="9-10"}
 
 # Define missing data value
 Mplus_dyads[is.na(Mplus_dyads)] <- 999
-
-# Export your data to Mplus
-prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
 
 ```
 
-## MplusAutomation
+And export
 
-```{r, echo=TRUE, eval=FALSE, `code-line-numbers`="11-13"}
-# Pivot wider your data
-Mplus_dyads <- 
-  dyads |> 
-  group_by(ID, MEMBER, FACTORNAME) |>
-  summarise(MEAN= mean(ANSWER)) |> 
-  pivot_wider(names_from = c(MEMBER, FACTORNAME),
-              values_from = MEAN) 
-
-# Define missing data value
-Mplus_dyads[is.na(Mplus_dyads)] <- 999
-
+```{r echo=TRUE, eval=FALSE}
 # Export your data to Mplus
 prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
 
@@ -474,62 +491,139 @@ prepareMplusData(Mplus_dyads, "Mplus_dyads.dat")
 :::
 :::
 
-# CFA in Lavaan
+# Practice {background-color="#ffe700"}
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-Mplus_cfa  <- dyads |> 
-  filter(FACTORNAME %in% c("CRCDO", "PRPRD", "FRPFM")) |> 
-  select(ID, MEMBER, VARNAME, answer) |> 
-  pivot_wider(names_from = VARNAME , values_from = answer,
-              id_cols = c("ID", "MEMBER"))
 
-Mplus_cfa[is.na(Mplus_cfa)] <- 999
+# CFA in R using `Lavaan`
 
-prepareMplusData(Mplus_cfa, "Mplus_CFA.dat")
+```{r, message=FALSE, warning=FALSE}
+Mplus_cfa <- dyads |> 
+  select(ID, MEMBER, answer, VARNAME) |> 
+  filter(VARNAME %in% c("HMALC", "HMCIG", "HMMARO", "HMMARR")) |> 
+  pivot_wider(id_cols=c(ID, MEMBER), names_from = VARNAME, values_from=answer) |> 
+  select(-ID, -MEMBER)
 ```
 
-# CFA Lavaan
+## CFA Lavaan
 
-Complete sample
+To estimate the model you need to
 
-```{r,  comment=''}
+1. use `library(lavaan)`
+2. Specify your model
 
+Perceived Risks of Drug Use (PRPRD) by items HMALC, HMCIG, HMMARO and HMMARR.
+
+```{r,comment='', echo=TRUE}
 library(lavaan)
 
 model  <- '
 
-CRCDO =~  SAFENH + NHDELIN + NHVENTA + NHFIGHT + NHEMPTY + NHGRAF
-
-FRPFM =~  CATCHAL + CATCHSK + CLRRULE + CMHOME + FAMRULE + HMWORK + PARKNOW
-
 PRPRD =~ HMALC  + HMCIG + HMMARO + HMMARR
 
 '
+```
 
-Mplus_cfa[Mplus_cfa==999] <- NA
+
+## CFA Lavaan
+
+To estimate the model you need to
+
+3. Estimate your model  
+
+```{r,  comment='', echo=TRUE}
 
 # Entire sample
-cfa_results <- cfa(model, data=Mplus_cfa) |> 
-  summary(standardized=TRUE, fit.measures=TRUE) 
+cfa_fit <- cfa(model, data=Mplus_cfa) 
 
-
+cfa_results <- summary(cfa_fit, standardized=TRUE, fit.measures=TRUE) 
 
 ```
 
-# Parents
+The standardized argument equal TRUE gives you results equivalent to STD (Std.lv) and STDYX (Std.all) on Mplus. 
 
-```{r, comment='', eval=FALSE}
-Mplus_cfa |> filter(MEMBER=="P") |> 
-  cfa(model, data=_ )  |> 
+You can have reduced output using `standardizedsolution()`
+
+## lavaan ouput
+
+```{r}
+cfa_results
+```
+
+## lavaan ouput
+
+```{r}
+# Notice that the object is the fit of the model, not the summary.
+standardizedsolution(cfa_fit)
+```
+
+##
+
+```{r}
+library(gtExtras)
+# Notice that the object is the fit of the model, not the summary.
+standardizedsolution(cfa_fit) |> gt() |> fmt_number(
+    decimals = 3,
+    use_seps = FALSE
+  ) |> 
+   tab_header(
+    title = "My First CFA in R",
+    subtitle = "Advanced Research Methods"
+  ) |> gt_theme_nytimes()
+  
+```
+
+
+# Practice {background-color="#ffe700" }
+
+# CFA by groups {background-color="#ffe700" }
+
+## Parents
+
+```{r, comment='', echo=TRUE}
+parents <-dyads |> filter(MEMBER=="P") |> 
+  select(ID, answer, VARNAME) |> 
+  filter(VARNAME %in% c("HMALC", "HMCIG", "HMMARO", "HMMARR")) |> 
+  pivot_wider(names_from = VARNAME, values_from=answer, id_cols = ID) |> 
+  select(-ID)
+
+parents_results <- cfa(model, data=parents)  |> 
   summary(standardized=TRUE, fit.measures=TRUE)
-```
-
-# Students
-
-```{r, comment='', eval=FALSE}
-Mplus_cfa |> filter(MEMBER=="S") |> 
-  cfa(model, data=_)  |> 
-  summary(standardized=TRUE,fit.measures=TRUE)
-
 
 ```
+
+## Parents
+
+```{r}
+parents_results
+```
+
+
+## Students
+
+```{r, comment='', echo=TRUE}
+students <-dyads |> filter(MEMBER=="S") |> 
+  select(ID, answer, VARNAME) |> 
+  filter(VARNAME %in% c("HMALC", "HMCIG", "HMMARO", "HMMARR")) |> 
+  pivot_wider(names_from = VARNAME, values_from=answer, id_cols = ID) |> 
+  select(-ID)
+
+students_results <- cfa(model, data=students)  |> 
+  summary(standardized=TRUE, fit.measures=TRUE)
+
+```
+
+
+## Students
+
+```{r}
+students_results
+```
+
+
+# We can do better {background-color="#ffe700" }
+
+Are we measuring the same thing? 
+Invariance?
+Dyads?
+
+# The end
